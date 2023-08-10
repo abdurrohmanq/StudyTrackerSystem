@@ -69,7 +69,7 @@ public class PaymentService : IPaymentService
 
     public async Task<Response<IEnumerable<PaymentResultDto>>> GetAllAsync()
     {
-        var payments = unitOfWork.PaymentRepository.GetAll();
+        var payments = unitOfWork.PaymentRepository.GetAllWithStudentAsync();
         var result = new List<PaymentResultDto>();
 
         foreach (var payment in payments)

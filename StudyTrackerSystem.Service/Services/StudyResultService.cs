@@ -2,6 +2,7 @@
 using StudyTrackerSystem.Data.IRepositories.Common;
 using StudyTrackerSystem.Data.Repositories.Common;
 using StudyTrackerSystem.Domain.Entities.StudyResults;
+using StudyTrackerSystem.Service.DTOs.Students;
 using StudyTrackerSystem.Service.DTOs.StudyResults;
 using StudyTrackerSystem.Service.Helpers;
 using StudyTrackerSystem.Service.Interfaces;
@@ -72,7 +73,7 @@ public class StudyResultService : IStudyResultService
 
     public async Task<Response<IEnumerable<StudyResultResultDto>>> GetAllAsync()
     {
-        var studyResults = unitOfWork.StudyResultRepository.GetAll();
+        var studyResults = unitOfWork.StudyResultRepository.GetAllWithAsync();
         var result = new List<StudyResultResultDto>();
 
         foreach (var studyResult in studyResults)
@@ -91,7 +92,7 @@ public class StudyResultService : IStudyResultService
 
     public async Task<Response<StudyResultResultDto>> GetAsync(long id)
     {
-        var studyResult = await unitOfWork.StudyResultRepository.GetByIdAsync(id);
+        var studyResult = await unitOfWork.StudyResultRepository.GetByIdWithAsync(id);
         if (studyResult is null)
             return new Response<StudyResultResultDto>()
             {
@@ -109,6 +110,8 @@ public class StudyResultService : IStudyResultService
             Data = result
         };
     }
+
+    
 
     public async Task<Response<StudyResultResultDto>> UpdateAsync(StudyResultUpdateDto dto)
     {

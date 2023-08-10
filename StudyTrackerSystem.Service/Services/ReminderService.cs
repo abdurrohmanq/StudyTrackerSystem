@@ -21,8 +21,20 @@ public class ReminderService : IReminderService
     }
     public async Task<Response<ReminderResultDto>> CreateAsync(ReminderCreationDto dto)
     {
-
+        var student = await unitOfWork.StudentRepository.GetByIdAsync(dto.StudentId);
+        var teacher = await unitOfWork.TeacherRepository.GetByIdAsync(dto.TeacherId);
+        if (student is null || teacher is null)
+            return new Response<ReminderResultDto>()
+            {
+                StatusCode = 404,
+                Message = "Not Found"
+            };
+        
         var mappedRemind = mapper.Map<Reminder>(dto);
+        if(student is not null)
+            mappedRemind.Student = student;
+        if(teacher is not null)
+            mappedRemind.Teacher = teacher;
 
         await unitOfWork.ReminderRepository.CreateAsync(mappedRemind);
         await unitOfWork.SaveChanges();
@@ -61,7 +73,7 @@ public class ReminderService : IReminderService
 
     public async Task<Response<IEnumerable<ReminderResultDto>>> GetAllAsync()
     {
-        var reminds = unitOfWork.ReminderRepository.GetAll();
+        var reminds = unitOfWork.ReminderRepository.GetAllWithAsync();
         var result = new List<ReminderResultDto>();
 
         foreach (var remind in reminds)
@@ -80,7 +92,7 @@ public class ReminderService : IReminderService
 
     public async Task<Response<ReminderResultDto>> GetAsync(long id)
     {
-        var remind = await unitOfWork.ReminderRepository.GetByIdAsync(id);
+        var remind = await unitOfWork.ReminderRepository.GetByIdWithAsync(id);
         if (remind is null)
             return new Response<ReminderResultDto>()
             {

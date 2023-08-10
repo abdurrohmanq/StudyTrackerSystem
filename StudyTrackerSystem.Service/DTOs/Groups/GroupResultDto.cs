@@ -1,4 +1,6 @@
-﻿namespace StudyTrackerSystem.Service.DTOs.Groups;
+﻿using StudyTrackerSystem.Domain.Entities.Teachers;
+
+namespace StudyTrackerSystem.Service.DTOs.Groups;
 
 public class GroupResultDto
 {

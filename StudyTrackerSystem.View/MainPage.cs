@@ -117,6 +117,7 @@ public class MainPage
             "3. Delete\n" +
             "4. Get\n" +
             "5. GetAll\n" +
+            "6. GetAttendance\n" +
             "0. Back");
         Console.Write(">>> ");
 
@@ -137,6 +138,9 @@ public class MainPage
                 break;
             case 5:
                 studentServiceView.GetAll();
+                break;
+            case 6:
+                studentServiceView.GetAttendance();
                 break;
             case 0:
                 MainView();
@@ -253,10 +257,10 @@ public class MainPage
                 textBookServiceView.Update();
                 break;
             case 4:
-                groupServiceView.Get();
+                textBookServiceView.Get();
                 break;
             case 5:
-                groupServiceView.GetAll();
+                textBookServiceView.GetAll();
                 break;
             case 0:
                 MainView();
@@ -306,7 +310,7 @@ public class MainPage
 
     public void Reminder()
     {
-        Console.WriteLine("---------- Teacher ----------");
+        Console.WriteLine("---------- Reminder ----------");
         Console.WriteLine("1. Create\n" +
             "2. Update\n" +
             "3. Delete\n" +

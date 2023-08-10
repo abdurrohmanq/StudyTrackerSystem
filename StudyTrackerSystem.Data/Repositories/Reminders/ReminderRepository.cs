@@ -1,4 +1,5 @@
-﻿using StudyTrackerSystem.Data.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using StudyTrackerSystem.Data.Contexts;
 using StudyTrackerSystem.Data.IRepositories.Reminders;
 using StudyTrackerSystem.Data.Repositories.Common;
 using StudyTrackerSystem.Domain.Entities.Reminders;
@@ -16,5 +17,16 @@ public class ReminderRepository:Repository<Reminder>,IReminderRepository
     public ReminderRepository(AppDbContext appDbContext) : base(appDbContext)
     {
         this.appDbContext = appDbContext;
+    }
+
+    public IQueryable<Reminder> GetAllWithAsync()
+    {
+        return appDbContext.Reminders.Include(t => t.Student).Include(t => t.Teacher).AsQueryable();
+    }
+
+    public async Task<Reminder> GetByIdWithAsync(long Id)
+    {
+        return await appDbContext.Reminders.Include(t => t.Student).Include(t => t.Teacher).FirstOrDefaultAsync(t => t.Id == Id);
+
     }
 }

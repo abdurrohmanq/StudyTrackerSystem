@@ -79,7 +79,16 @@ public class StudentServiceView
 
         var result = (await studentService.GetAsync(id)).Data;
         if (result is not null)
-            Console.WriteLine($"FirstName: {result.FirstName} LastName: {result.LastName} Address: {result.Address} Group: {result.GroupResult.Name}");
+        {
+            if (result.Group is not null)
+            {
+                Console.WriteLine($"FirstName: {result.FirstName} LastName: {result.LastName} Address: {result.Address} Group: {result.Group.Name}");
+            }
+            else
+            {
+                Console.WriteLine($"FirstName: {result.FirstName} LastName: {result.LastName} Address: {result.Address} Group: No group Assigned");
+            }
+        }
         else
             Console.WriteLine((await studentService.GetAsync(id)).Message);
     }
@@ -90,9 +99,22 @@ public class StudentServiceView
         if (students.Any())
         {
             foreach (var student in students)
-                Console.WriteLine($"FirstName: {student.FirstName} LastName: {student.LastName} Address: {student.Address} Group: {student.GroupResult.Name}");
+            {
+                if(student.Group is not null)
+                   Console.WriteLine($"FirstName: {student.FirstName} LastName: {student.LastName} Address: {student.Address} Group: {student.Group.Name}");
+                else
+                    Console.WriteLine($"FirstName: {student.FirstName} LastName: {student.LastName} Address: {student.Address} Group: Np Group Assigned");
+            }
         }
         else
             Console.WriteLine((await studentService.GetAllAsync()).Message);
+    }
+
+    public async void GetAttendance()
+    {
+        Console.WriteLine("Enter Group id: ");
+        long id = long.Parse(Console.ReadLine());
+        
+        Console.WriteLine((await studentService.GetAttendance(id)).Message);    
     }
 }

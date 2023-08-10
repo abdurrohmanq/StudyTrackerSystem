@@ -152,9 +152,9 @@ public class ReminderServiceView
         if (response.Data is not null)
         {
             var result = response.Data;
-            if (result.StudentId != 0)
+            if (result.Student is not null)
                 Console.WriteLine(result.Student.FirstName + "  " + result.Text + " " + result.Date);
-            else if (result.TeacherId != 0)
+            else if (result.Teacher is not null)
                 Console.WriteLine(result.Teacher.FirstName + "  " + result.Text + " " + result.Date);
         }
         else
@@ -173,11 +173,11 @@ public class ReminderServiceView
             {
                 if (item.StudentId != 0)
                 {
-                    Console.WriteLine("Student: " + item.Student.FirstName + " " + item.Student.LastName);
+                    Console.WriteLine("Student: " + item.Student.FirstName + " " + item.Student.LastName + " " + item.Text + "  " + item.Date);
                 }
                 else if (item.TeacherId != 0)
                 {
-                    Console.WriteLine("Teacher: " + item.Teacher.FirstName + " " + item.Teacher.LastName);
+                    Console.WriteLine("Teacher: " + item.Teacher.FirstName + " " + item.Teacher.LastName +" "+item.Text + " "+ item.Date);
                 }
             }
         }

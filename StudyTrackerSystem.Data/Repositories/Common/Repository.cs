@@ -30,7 +30,7 @@ public class Repository<T> : IRepository<T> where T : AudiTable
         return dbSet.AsNoTracking().AsQueryable();
     }
 
-    public Task<T> GetByIdAsync(long id)
+    public Task<T> GetByIdAsync(long? id)
         => dbSet.FirstOrDefaultAsync(x => x.Id == id);
 
     public void Update(T entity)

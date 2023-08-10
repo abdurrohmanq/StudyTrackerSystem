@@ -11,4 +11,6 @@ namespace StudyTrackerSystem.Data.IRepositories.Teachers;
 public interface ITeacherRepository:IRepository<Teacher>
 {
     Task<Teacher> GetByEmail(string email); 
+    Task<Teacher> GetByIdWithGroupAsync(long Id);
+    IQueryable<Teacher> GetAllWithGroupAsync();
 }

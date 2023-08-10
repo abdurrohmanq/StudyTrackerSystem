@@ -77,9 +77,8 @@ public class TeacherService : ITeacherService
 
     public async Task<Response<IEnumerable<TeacherResultDto>>> GetAllAsync()
     {
-        var teachers = unitOfWork.TeacherRepository.GetAll();
+        var teachers = unitOfWork.TeacherRepository.GetAllWithGroupAsync();
         var result = new List<TeacherResultDto>();
-
         foreach (var teacher in teachers)
         {
             var map = mapper.Map<TeacherResultDto>(teacher);
@@ -96,7 +95,7 @@ public class TeacherService : ITeacherService
 
     public async Task<Response<TeacherResultDto>> GetAsync(long id)
     {
-        var teacher = await unitOfWork.TeacherRepository.GetByIdAsync(id);
+        var teacher = await unitOfWork.TeacherRepository.GetByIdWithGroupAsync(id);
         if (teacher is null)
             return new Response<TeacherResultDto>()
             {

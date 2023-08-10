@@ -6,11 +6,6 @@ using StudyTrackerSystem.Service.DTOs.Students;
 using StudyTrackerSystem.Service.Helpers;
 using StudyTrackerSystem.Service.Interfaces;
 using StudyTrackerSystem.Service.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudyTrackerSystem.Service.Services;
 
@@ -74,7 +69,7 @@ public class StudentService : IStudentService
 
     public async Task<Response<IEnumerable<StudentResultDto>>> GetAllAsync()
     {
-        var students = unitOfWork.StudentRepository.GetAll();
+        var students = unitOfWork.StudentRepository.GetAllWithGroupAsync();
         var result = new List<StudentResultDto>();
 
         foreach (var student in students)
@@ -93,7 +88,7 @@ public class StudentService : IStudentService
 
     public async Task<Response<StudentResultDto>> GetAsync(long id)
     {
-        var student = await unitOfWork.StudentRepository.GetByIdAsync(id);
+        var student = await unitOfWork.StudentRepository.GetByIdWithGroupAsync(id);
         if (student is null)
             return new Response<StudentResultDto>()
             {
@@ -123,7 +118,7 @@ public class StudentService : IStudentService
                 Data = null
             };
 
-        var mappedStudent = mapper.Map(dto,student);
+        var mappedStudent = mapper.Map(dto, student);
 
         unitOfWork.StudentRepository.Update(mappedStudent);
         await unitOfWork.SaveChanges();
@@ -137,4 +132,61 @@ public class StudentService : IStudentService
             Data = result
         };
     }
+
+    public async Task<Response<bool>> GetAttendance(long groupId)
+    {
+        var group = await unitOfWork.GroupRepository.GetByIdAsync(groupId);
+        if (group is null)
+        {
+            return new Response<bool>()
+            {
+                StatusCode = 404,
+                Message = "Not Found",
+                Data = false
+            };
+        }
+
+        var students = group.Students.ToList();
+        if (students.Count == 0)
+        {
+            return new Response<bool>()
+            {
+                StatusCode = 400,
+                Message = "No students found in the group",
+                Data = false
+            };
+        }
+
+        Console.WriteLine("\tFirst Name\t\t\tLast Name");
+
+        for (int i = 0; i < students.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {students[i].FirstName}\t\t{students[i].LastName}");
+        }
+
+        Console.Write("Mark an absent student: ");
+        if (!int.TryParse(Console.ReadLine(), out int select) || select < 1 || select > students.Count)
+        {
+            return new Response<bool>()
+            {
+                StatusCode = 400,
+                Message = "Invalid student selection",
+                Data = false
+            };
+        }
+
+        var student2 = students[select - 1];
+        student2.Attendance = false;
+        unitOfWork.StudentRepository.Update(student2);
+        await unitOfWork.SaveChanges();
+
+        return new Response<bool>()
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = true
+        };
+    }
+
+
 }

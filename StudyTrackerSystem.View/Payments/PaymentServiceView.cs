@@ -53,7 +53,11 @@ public class PaymentServiceView
 
         if (result != null)
         {
-            Console.WriteLine(result.Student.FirstName + "  " + result.Amount + " " + result.Date);
+            if(result.Student!= null)
+               Console.WriteLine(result.Student.FirstName + "  " + result.Amount + " " + result.Date);
+            else
+               Console.WriteLine( "No Student  " + result.Amount + " " + result.Date);
+
         }
         else
         {
@@ -69,7 +73,10 @@ public class PaymentServiceView
         {
             foreach (var item in result)
             {
-                Console.WriteLine(item.Student.FirstName + "  " + item.Amount + " " + item.Date);
+                if(item.Student != null)
+                   Console.WriteLine(item.Student.FirstName + "  " + item.Amount + " " + item.Date);
+                else
+                    Console.WriteLine("No Student  " + item.Amount + " " + item.Date);
 
             }
         }

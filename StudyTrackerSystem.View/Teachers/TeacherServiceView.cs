@@ -62,7 +62,14 @@ public class TeacherServiceView
 
         var result = (await teacherService.GetAsync(id)).Data;
         if (result is not null)
-            Console.WriteLine($"FirstName: {result.FirstName} LastName: {result.LastName} Email: {result.Email} Group: {result.Group.Name}");
+            if (result.Group is not null)
+            {
+                Console.WriteLine($"FirstName: {result.FirstName} LastName: {result.LastName} Email: {result.Email} Group: {result.Group.Name}");
+            }
+            else
+            {
+                Console.WriteLine($"FirstName: {result.FirstName} LastName: {result.LastName} Email: {result.Email} Group: No Group Assigned");
+            }
         else
             Console.WriteLine((await teacherService.GetAsync(id)).Message);
     }
@@ -73,7 +80,12 @@ public class TeacherServiceView
         if (teachers.Any())
         {
             foreach (var teacher in teachers)
-                Console.WriteLine($"FirstName: {teacher.FirstName} LastName: {teacher.LastName} Email:  {teacher.Email} Group: {teacher.Group.Name}");
+            {
+                if(teacher.Group != null)
+                    Console.WriteLine($"FirstName: {teacher.FirstName} LastName: {teacher.LastName} Email:  {teacher.Email} Group: {teacher.Group.Name}");
+                else
+                    Console.WriteLine($"FirstName: {teacher.FirstName} LastName: {teacher.LastName} Email:  {teacher.Email} Group: No Group Assigned");
+            }
         }
         else
             Console.WriteLine((await teacherService.GetAllAsync()).Message);

@@ -1,4 +1,5 @@
 ﻿using StudyTrackerSystem.Data.IRepositories.Common;
+using StudyTrackerSystem.Domain.Entities.Payments;
 using StudyTrackerSystem.Domain.Entities.Subjects;
 using System;
 using System.Collections.Generic;
@@ -10,4 +11,5 @@ namespace StudyTrackerSystem.Data.IRepositories.Subjects;
 
 public interface ISubjectRepository : IRepository<Subject>
 {
+   
 }

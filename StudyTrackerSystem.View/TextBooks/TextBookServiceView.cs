@@ -38,17 +38,29 @@ public class TextBookServiceView
 
         var result = (await TextBookService.GetAsync(id)).Data;
         if (result != null)
-            Console.WriteLine(result.Name + " " + result.Subject.Name);
+        {
+            if(result.Subject is not null)
+                Console.WriteLine(result.Name + " " + result.Subject.Name);
+            else
+            {
+                Console.WriteLine(result.Name);
+            }
+        }
         else
             Console.WriteLine((await TextBookService.GetAsync(id)).Message);
     }
 
     public async void GetAll()
     {
-        var textBooks = (await  TextBookService.GetAllAsync()).Data;    
-        if(textBooks != null)
+        var textBooks = (await  TextBookService.GetAllAsync()).Data;
+        if (textBooks != null)
             foreach (var textBook in textBooks)
-                Console.WriteLine(textBook.Name + " " + textBook.Subject.Name);
+            {
+                if (textBook.Subject != null)
+                    Console.WriteLine(textBook.Name + " " + textBook.Subject.Name);
+                else
+                    Console.WriteLine(textBook.Name);
+            }
         else
         {
             Console.WriteLine((await TextBookService.GetAllAsync()).Message);

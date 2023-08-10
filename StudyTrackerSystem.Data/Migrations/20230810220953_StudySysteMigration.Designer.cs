@@ -12,8 +12,8 @@ using StudyTrackerSystem.Data.Contexts;
 namespace StudyTrackerSystem.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230810145516_StudyTrackerMigration")]
-    partial class StudyTrackerMigration
+    [Migration("20230810220953_StudySysteMigration")]
+    partial class StudySysteMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -91,10 +91,10 @@ namespace StudyTrackerSystem.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("StudentId")
+                    b.Property<long?>("StudentId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("TeacherId")
+                    b.Property<long?>("TeacherId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Text")
@@ -284,14 +284,11 @@ namespace StudyTrackerSystem.Data.Migrations
                     b.HasOne("StudyTrackerSystem.Domain.Entities.Students.Student", "Student")
                         .WithMany("Reminders")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("StudyTrackerSystem.Domain.Entities.Teachers.Teacher", "Teacher")
                         .WithMany("Reminders")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TeacherId");
 
                     b.Navigation("Student");
 

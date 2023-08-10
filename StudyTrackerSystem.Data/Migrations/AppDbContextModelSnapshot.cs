@@ -281,7 +281,7 @@ namespace StudyTrackerSystem.Data.Migrations
                     b.HasOne("StudyTrackerSystem.Domain.Entities.Students.Student", "Student")
                         .WithMany("Reminders")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("StudyTrackerSystem.Domain.Entities.Teachers.Teacher", "Teacher")
                         .WithMany("Reminders")

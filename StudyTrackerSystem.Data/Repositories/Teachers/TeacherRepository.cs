@@ -23,4 +23,14 @@ public class TeacherRepository : Repository<Teacher>,ITeacherRepository
     {
         return await appDbContext.Teachers.FirstOrDefaultAsync(t => t.Email.Equals(email));
     }
+
+    public async Task<Teacher> GetByIdWithGroupAsync(long Id)
+    {
+        return await appDbContext.Teachers.Include(t => t.Group).FirstOrDefaultAsync(t => t.Id == Id);
+    }
+
+    IQueryable<Teacher> ITeacherRepository.GetAllWithGroupAsync()
+    {
+        return appDbContext.Teachers.Include(t => t.Group).AsQueryable();
+    }
 }

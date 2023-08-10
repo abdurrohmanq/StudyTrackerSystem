@@ -55,7 +55,12 @@ public class StudyResultView
         var result = (await studyResultService.GetAsync(id)).Data;
 
         if (result != null)
-            Console.WriteLine(result.StudentResultDto.FirstName + " " + result.StudentResultDto.LastName + " " + result.SubjectResultDto.Name + " " + result.Ball);
+        {
+            if (result.Subject is not null && result.Student is not null)
+                Console.WriteLine(result.Student.FirstName + " " + result.Student.LastName + " " + result.Subject.Name + " " + result.Ball);
+            else
+                Console.WriteLine("Student or Subject is Null");
+        }
         else
         {
             Console.WriteLine((await studyResultService.GetAsync(id)).Message);
@@ -69,7 +74,12 @@ public class StudyResultView
         {
             foreach (var StudyResult in StudyResults)
             {
-                Console.WriteLine(StudyResult.StudentResultDto.FirstName + " " + StudyResult.StudentResultDto.LastName + " " + StudyResult.SubjectResultDto.Name + " " + StudyResult.Ball);
+                if (StudyResult.Student != null && StudyResult.Subject != null)
+                {
+                    Console.WriteLine(StudyResult.Student.FirstName + " " + StudyResult.Student.LastName + " " + StudyResult.Subject.Name + " " + StudyResult.Ball);
+                }
+                else
+                    Console.WriteLine(StudyResult.Ball);
             }
         }
         else

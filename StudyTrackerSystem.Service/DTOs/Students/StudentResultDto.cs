@@ -1,4 +1,5 @@
-﻿using StudyTrackerSystem.Service.DTOs.Groups;
+﻿using StudyTrackerSystem.Domain.Entities.Groups;
+using StudyTrackerSystem.Service.DTOs.Groups;
 
 namespace StudyTrackerSystem.Service.DTOs.Students;
 
@@ -10,5 +11,5 @@ public class StudentResultDto
     public string Address { get; set; }
     public DateTime DateOfBirth { get; set; }
     public bool Attendance { get; set; }
-    public GroupResultDto  GroupResult { get; set; }
+    public Group  Group { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using StudyTrackerSystem.Service.DTOs.StudyResults;
+﻿using StudyTrackerSystem.Service.DTOs.Students;
+using StudyTrackerSystem.Service.DTOs.StudyResults;
 using StudyTrackerSystem.Service.Helpers;
 
 namespace StudyTrackerSystem.Service.Interfaces;

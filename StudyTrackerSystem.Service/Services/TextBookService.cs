@@ -69,7 +69,7 @@ public class TextBookService : ITextBookService
 
     public async Task<Response<IEnumerable<TextBookResultDto>>> GetAllAsync()
     {
-        var textBooks = unitOfWork.TextBookRepository.GetAll();
+        var textBooks = unitOfWork.TextBookRepository.GetAllWithSubjectAsync();
         var result = new List<TextBookResultDto>();
 
         foreach (var textBook in textBooks)
@@ -88,7 +88,7 @@ public class TextBookService : ITextBookService
 
     public async Task<Response<TextBookResultDto>> GetAsync(long id)
     {
-        var textBook = await unitOfWork.TextBookRepository.GetByIdAsync(id);
+        var textBook = await unitOfWork.TextBookRepository.GetByIdWithSubjectAsync(id);
         if (textBook is null)
             return new Response<TextBookResultDto>()
             {

@@ -28,41 +28,43 @@ public class AppDbContext : DbContext
         optionsBuilder.UseSqlServer(connectionString);
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Student>()
-            .HasOne(g => g.Group)
-            .WithMany(s => s.Students)
-            .HasForeignKey(g => g.GroupId)
-            .OnDelete(DeleteBehavior.Cascade);
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Student>()
+                .HasOne(g => g.Group)
+                .WithMany(s => s.Students)
+                .HasForeignKey(g => g.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<Reminder>()
-            .HasOne(s => s.Student)
-            .WithMany(r => r.Reminders)
-            .HasForeignKey(s => s.StudentId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-
-        modelBuilder.Entity<Teacher>()
-            .HasOne(g => g.Group)
-            .WithMany(t => t.Teachers)
-            .HasForeignKey(g => g.GroupId);
-
-        modelBuilder.Entity<StudyResult>()
-              .HasOne(sr => sr.Student)
-              .WithMany(s => s.StudyResults)
-              .HasForeignKey(sr => sr.StudentId);
+            modelBuilder.Entity<Reminder>()
+                .HasOne(s => s.Student)
+                .WithMany(r => r.Reminders)
+                .HasForeignKey(s => s.StudentId)
+                .OnDelete(DeleteBehavior.SetNull);
 
 
-        modelBuilder.Entity<Subject>()
-            .HasMany(t => t.TextBooks)
-            .WithOne(s => s.Subject)
-            .HasForeignKey(s => s.SubjectId);
+            modelBuilder.Entity<Teacher>()
+                .HasOne(g => g.Group)
+                .WithMany(t => t.Teachers)
+                .HasForeignKey(g => g.GroupId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<StudyResult>()
+                  .HasOne(sr => sr.Student)
+                  .WithMany(s => s.StudyResults)
+                  .HasForeignKey(sr => sr.StudentId);
 
 
-        modelBuilder.Entity<Payment>()
-        .Property(p => p.Amount)
-        .HasColumnType("decimal(18, 2)");
+            modelBuilder.Entity<Subject>()
+                .HasMany(t => t.TextBooks)
+                .WithOne(s => s.Subject)
+                .HasForeignKey(s => s.SubjectId);
+
+
+            modelBuilder.Entity<Payment>()
+            .Property(p => p.Amount)
+            .HasColumnType("decimal(18, 2)");
+
+        }
     }
-}

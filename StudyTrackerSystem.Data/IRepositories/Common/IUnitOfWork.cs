@@ -16,10 +16,10 @@ namespace StudyTrackerSystem.Data.IRepositories.Common;
 
 public interface IUnitOfWork : IDisposable
 {
-    IStudentRepository StudyRepository { get; }
+    IStudentRepository StudentRepository { get; }
     ITeacherRepository TeacherRepository { get; }
     IGroupRepository GroupRepository { get; }
-    IPaymentRepository Payment { get; }
+    IPaymentRepository PaymentRepository { get; }
     ISubjectRepository SubjectRepository { get; }
     ITextBookRepository TextBookRepository { get; }
     IReminderRepository ReminderRepository { get; }

@@ -18,14 +18,4 @@
     <ProjectReference Include="..\StudyTrackerSystem.Domain\StudyTrackerSystem.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="IRepository\Groups\" />
-    <Folder Include="IRepository\TextBooks\" />
-    <Folder Include="IRepository\StudyResults\" />
-    <Folder Include="IRepository\Subjects\" />
-    <Folder Include="IRepository\Reminders\" />
-    <Folder Include="IRepository\Payments\" />
-    <Folder Include="IRepository\Teachers\" />
-  </ItemGroup>
-
 </Project>

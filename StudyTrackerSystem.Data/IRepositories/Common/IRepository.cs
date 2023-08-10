@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudyTrackerSystem.Data.IRepository.Common;
+namespace StudyTrackerSystem.Data.IRepositories.Common;
 
 public interface IRepository<T> where T : AudiTable
 {

@@ -16,11 +16,6 @@ using StudyTrackerSystem.Data.Repositories.StudyResults;
 using StudyTrackerSystem.Data.Repositories.Subjects;
 using StudyTrackerSystem.Data.Repositories.Teachers;
 using StudyTrackerSystem.Data.Repositories.TextBooks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudyTrackerSystem.Data.Repositories.Common;
 
@@ -39,21 +34,21 @@ public class UnitOfWork : IUnitOfWork
         ReminderRepository = new ReminderRepository(appDbContext);
         StudyResultRepository = new StudyResultRepository(appDbContext);
     }
-    public IStudentRepository StudentRepository { get;}
+    public IStudentRepository StudentRepository { get; }
 
-    public ITeacherRepository TeacherRepository { get;}
+    public ITeacherRepository TeacherRepository { get; }
 
-    public IGroupRepository GroupRepository { get;}
+    public IGroupRepository GroupRepository { get; }
 
-    public IPaymentRepository PaymentRepository { get;}
+    public IPaymentRepository PaymentRepository { get; }
 
-    public ISubjectRepository SubjectRepository { get;}
+    public ISubjectRepository SubjectRepository { get; }
 
-    public ITextBookRepository TextBookRepository { get;}
+    public ITextBookRepository TextBookRepository { get; }
 
-    public IReminderRepository ReminderRepository { get;}
+    public IReminderRepository ReminderRepository { get; }
 
-    public IStudyResultRepository StudyResultRepository { get;}
+    public IStudyResultRepository StudyResultRepository { get; }
 
     public void Dispose()
     {

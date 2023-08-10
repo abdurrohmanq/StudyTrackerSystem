@@ -29,8 +29,16 @@ public class TeacherService : ITeacherService
                 Message = "This already exist",
                 Data = null
             };
+        var group = await unitOfWork.GroupRepository.GetByIdAsync(dto.GroupId);
+        if (group is null)
+            return new Response<TeacherResultDto>
+            {
+                StatusCode = 404,
+                Message = "Not Found Group"
+            };
 
         var mappedTeacher = mapper.Map<Teacher>(dto);
+        mappedTeacher.Group = group;
 
         await unitOfWork.TeacherRepository.CreateAsync(mappedTeacher);
         await unitOfWork.SaveChanges();

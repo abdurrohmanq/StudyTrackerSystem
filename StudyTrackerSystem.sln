@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyTrackerSystem", "StudyTrackerSystem\StudyTrackerSystem.csproj", "{D20B03BD-BF37-4978-B31F-9B54EF7B12A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyTrackerSystem", "StudyTrackerSystem\StudyTrackerSystem.csproj", "{D20B03BD-BF37-4978-B31F-9B54EF7B12A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyTrackerSystem.Data", "StudyTrackerSystem.Data\StudyTrackerSystem.Data.csproj", "{97B22CB4-3623-4A62-B2BA-F92C01043932}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyTrackerSystem.Data", "StudyTrackerSystem.Data\StudyTrackerSystem.Data.csproj", "{97B22CB4-3623-4A62-B2BA-F92C01043932}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyTrackerSystem.Domain", "StudyTrackerSystem.Domain\StudyTrackerSystem.Domain.csproj", "{CCAC4707-0DF8-4D6E-BBDF-8870FCD31AB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyTrackerSystem.Domain", "StudyTrackerSystem.Domain\StudyTrackerSystem.Domain.csproj", "{CCAC4707-0DF8-4D6E-BBDF-8870FCD31AB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyTrackerSystem.Service", "StudyTrackerSystem.Service\StudyTrackerSystem.Service.csproj", "{B9A6A9D2-054E-4E96-9F3E-61E64D4C5B99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyTrackerSystem.Service", "StudyTrackerSystem.Service\StudyTrackerSystem.Service.csproj", "{B9A6A9D2-054E-4E96-9F3E-61E64D4C5B99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyTrackerSystem.View", "StudyTrackerSystem.View\StudyTrackerSystem.View.csproj", "{FC91261C-6ED6-4614-9313-B2EA06F3A164}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B9A6A9D2-054E-4E96-9F3E-61E64D4C5B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9A6A9D2-054E-4E96-9F3E-61E64D4C5B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9A6A9D2-054E-4E96-9F3E-61E64D4C5B99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC91261C-6ED6-4614-9313-B2EA06F3A164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC91261C-6ED6-4614-9313-B2EA06F3A164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC91261C-6ED6-4614-9313-B2EA06F3A164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC91261C-6ED6-4614-9313-B2EA06F3A164}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

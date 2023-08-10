@@ -21,8 +21,16 @@ public class TextBookService : ITextBookService
     }
     public async Task<Response<TextBookResultDto>> CreateAsync(TextBookCreationDto dto)
     {
+        var subject = await unitOfWork.SubjectRepository.GetByIdAsync(dto.SubjectId);
+        if (subject == null)
+            return new Response<TextBookResultDto>()
+            {
+                StatusCode = 404,
+                Message = "Not Found"
+            };
 
         var mappedTextBook = mapper.Map<TextBook>(dto);
+        mappedTextBook.Subject = subject;
 
         await unitOfWork.TextBookRepository.CreateAsync(mappedTextBook);
         await unitOfWork.SaveChanges();

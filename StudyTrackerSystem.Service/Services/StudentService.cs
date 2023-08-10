@@ -26,7 +26,16 @@ public class StudentService : IStudentService
     }
     public async Task<Response<StudentResultDto>> CreateAsync(StudentCreationDto dto)
     {
+        var group = await unitOfWork.GroupRepository.GetByIdAsync(dto.GroupId);
+        if (group == null)
+            return new Response<StudentResultDto>()
+            {
+                StatusCode = 404,
+                Message = "Not Found Group"
+            };
+
         var mappedStudent = mapper.Map<Student>(dto);
+        mappedStudent.Group = group;
 
         await unitOfWork.StudentRepository.CreateAsync(mappedStudent);
         await unitOfWork.SaveChanges();

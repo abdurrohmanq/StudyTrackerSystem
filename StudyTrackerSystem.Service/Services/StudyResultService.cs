@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using StudyTrackerSystem.Data.IRepositories.Common;
 using StudyTrackerSystem.Data.Repositories.Common;
-using StudyTrackerSystem.Domain.Entities.TextBooks;
-using StudyTrackerSystem.Service.DTOs.Textbooks;
+using StudyTrackerSystem.Domain.Entities.StudyResults;
+using StudyTrackerSystem.Service.DTOs.StudyResults;
 using StudyTrackerSystem.Service.Helpers;
 using StudyTrackerSystem.Service.Interfaces;
 using StudyTrackerSystem.Service.Mapping;
@@ -19,17 +19,28 @@ public class StudyResultService : IStudyResultService
         unitOfWork = new UnitOfWork();
         mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<MapperProfile>()));
     }
-    public async Task<Response<TextBookResultDto>> CreateAsync(TextBookCreationDto dto)
+    public async Task<Response<StudyResultResultDto>> CreateAsync(StudyResultCreationDto dto)
     {
+        var student = await unitOfWork.StudentRepository.GetByIdAsync(dto.StudentId);
+        var subject = await unitOfWork.SubjectRepository.GetByIdAsync(dto.SubjectId);
+        if (student == null|| subject == null)
+            return new Response<StudyResultResultDto>()
+            {
+                StatusCode = 404,
+                Message = "Not Found"
+            };
 
-        var mappedTextBook = mapper.Map<TextBook>(dto);
 
-        await unitOfWork.TextBookRepository.CreateAsync(mappedTextBook);
+        var mappedStudyResult = mapper.Map<StudyResult>(dto);
+        mappedStudyResult.Subject = subject;
+        mappedStudyResult.Student = student;
+
+        await unitOfWork.StudyResultRepository.CreateAsync(mappedStudyResult);
         await unitOfWork.SaveChanges();
 
-        var result = mapper.Map<TextBookResultDto>(mappedTextBook);
+        var result = mapper.Map<StudyResultResultDto>(mappedStudyResult);
 
-        return new Response<TextBookResultDto>()
+        return new Response<StudyResultResultDto>()
         {
             StatusCode = 200,
             Message = "Success",
@@ -39,8 +50,8 @@ public class StudyResultService : IStudyResultService
 
     public async Task<Response<bool>> DeleteAsync(long id)
     {
-        var textBook = await unitOfWork.TextBookRepository.GetByIdAsync(id);
-        if (textBook is null)
+        var studyResult = await unitOfWork.StudyResultRepository.GetByIdAsync(id);
+        if (studyResult is null)
             return new Response<bool>()
             {
                 StatusCode = 404,
@@ -48,7 +59,7 @@ public class StudyResultService : IStudyResultService
                 Data = false
             };
 
-        unitOfWork.TextBookRepository.Delete(textBook);
+        unitOfWork.StudyResultRepository.Delete(studyResult);
         await unitOfWork.SaveChanges();
 
         return new Response<bool>()
@@ -59,18 +70,18 @@ public class StudyResultService : IStudyResultService
         };
     }
 
-    public async Task<Response<IEnumerable<TextBookResultDto>>> GetAllAsync()
+    public async Task<Response<IEnumerable<StudyResultResultDto>>> GetAllAsync()
     {
-        var textBooks = unitOfWork.TextBookRepository.GetAll();
-        var result = new List<TextBookResultDto>();
+        var studyResults = unitOfWork.StudyResultRepository.GetAll();
+        var result = new List<StudyResultResultDto>();
 
-        foreach (var textBook in textBooks)
+        foreach (var studyResult in studyResults)
         {
-            var map = mapper.Map<TextBookResultDto>(textBook);
+            var map = mapper.Map<StudyResultResultDto>(studyResult);
             result.Add(map);
         }
 
-        return new Response<IEnumerable<TextBookResultDto>>()
+        return new Response<IEnumerable<StudyResultResultDto>>()
         {
             StatusCode = 200,
             Message = "Success",
@@ -78,20 +89,20 @@ public class StudyResultService : IStudyResultService
         };
     }
 
-    public async Task<Response<TextBookResultDto>> GetAsync(long id)
+    public async Task<Response<StudyResultResultDto>> GetAsync(long id)
     {
-        var textBook = await unitOfWork.TextBookRepository.GetByIdAsync(id);
-        if (textBook is null)
-            return new Response<TextBookResultDto>()
+        var studyResult = await unitOfWork.StudyResultRepository.GetByIdAsync(id);
+        if (studyResult is null)
+            return new Response<StudyResultResultDto>()
             {
                 StatusCode = 404,
                 Message = "Not Found",
                 Data = null
             };
 
-        var result = mapper.Map<TextBookResultDto>(textBook);
+        var result = mapper.Map<StudyResultResultDto>(studyResult);
 
-        return new Response<TextBookResultDto>
+        return new Response<StudyResultResultDto>
         {
             StatusCode = 200,
             Message = "Success",
@@ -99,25 +110,25 @@ public class StudyResultService : IStudyResultService
         };
     }
 
-    public async Task<Response<TextBookResultDto>> UpdateAsync(TextBookUpdateDto dto)
+    public async Task<Response<StudyResultResultDto>> UpdateAsync(StudyResultUpdateDto dto)
     {
-        var textBook = await unitOfWork.TextBookRepository.GetByIdAsync(dto.Id);
-        if (textBook is null)
-            return new Response<TextBookResultDto>()
+        var studyResult = await unitOfWork.StudyResultRepository.GetByIdAsync(dto.Id);
+        if (studyResult is null)
+            return new Response<StudyResultResultDto>()
             {
                 StatusCode = 404,
                 Message = "Not Found",
                 Data = null
             };
 
-        var mappedTextBook = mapper.Map(dto, textBook);
+        var mappedStudyResult = mapper.Map(dto, studyResult);
 
-        unitOfWork.TextBookRepository.Update(mappedTextBook);
+        unitOfWork.StudyResultRepository.Update(mappedStudyResult);
         await unitOfWork.SaveChanges();
 
-        var result = mapper.Map<TextBookResultDto>(mappedTextBook);
+        var result = mapper.Map<StudyResultResultDto>(mappedStudyResult);
 
-        return new Response<TextBookResultDto>
+        return new Response<StudyResultResultDto>
         {
             StatusCode = 200,
             Message = "Success",

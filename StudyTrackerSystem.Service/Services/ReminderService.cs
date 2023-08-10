@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using StudyTrackerSystem.Data.IRepositories.Common;
 using StudyTrackerSystem.Data.Repositories.Common;
-using StudyTrackerSystem.Domain.Entities.TextBooks;
-using StudyTrackerSystem.Service.DTOs.Textbooks;
+using StudyTrackerSystem.Domain.Entities.Reminders;
+using StudyTrackerSystem.Service.DTOs.Reminders;
 using StudyTrackerSystem.Service.Helpers;
 using StudyTrackerSystem.Service.Interfaces;
 using StudyTrackerSystem.Service.Mapping;
@@ -19,17 +19,17 @@ public class ReminderService : IReminderService
         unitOfWork = new UnitOfWork();
         mapper = new Mapper(new MapperConfiguration(cfg => cfg.AddProfile<MapperProfile>()));
     }
-    public async Task<Response<TextBookResultDto>> CreateAsync(TextBookCreationDto dto)
+    public async Task<Response<ReminderResultDto>> CreateAsync(ReminderCreationDto dto)
     {
 
-        var mappedTextBook = mapper.Map<TextBook>(dto);
+        var mappedRemind = mapper.Map<Reminder>(dto);
 
-        await unitOfWork.TextBookRepository.CreateAsync(mappedTextBook);
+        await unitOfWork.ReminderRepository.CreateAsync(mappedRemind);
         await unitOfWork.SaveChanges();
 
-        var result = mapper.Map<TextBookResultDto>(mappedTextBook);
+        var result = mapper.Map<ReminderResultDto>(mappedRemind);
 
-        return new Response<TextBookResultDto>()
+        return new Response<ReminderResultDto>()
         {
             StatusCode = 200,
             Message = "Success",
@@ -39,8 +39,8 @@ public class ReminderService : IReminderService
 
     public async Task<Response<bool>> DeleteAsync(long id)
     {
-        var textBook = await unitOfWork.TextBookRepository.GetByIdAsync(id);
-        if (textBook is null)
+        var remind = await unitOfWork.ReminderRepository.GetByIdAsync(id);
+        if (remind is null)
             return new Response<bool>()
             {
                 StatusCode = 404,
@@ -48,7 +48,7 @@ public class ReminderService : IReminderService
                 Data = false
             };
 
-        unitOfWork.TextBookRepository.Delete(textBook);
+        unitOfWork.ReminderRepository.Delete(remind);
         await unitOfWork.SaveChanges();
 
         return new Response<bool>()
@@ -59,18 +59,18 @@ public class ReminderService : IReminderService
         };
     }
 
-    public async Task<Response<IEnumerable<TextBookResultDto>>> GetAllAsync()
+    public async Task<Response<IEnumerable<ReminderResultDto>>> GetAllAsync()
     {
-        var textBooks = unitOfWork.TextBookRepository.GetAll();
-        var result = new List<TextBookResultDto>();
+        var reminds = unitOfWork.ReminderRepository.GetAll();
+        var result = new List<ReminderResultDto>();
 
-        foreach (var textBook in textBooks)
+        foreach (var remind in reminds)
         {
-            var map = mapper.Map<TextBookResultDto>(textBook);
+            var map = mapper.Map<ReminderResultDto>(remind);
             result.Add(map);
         }
 
-        return new Response<IEnumerable<TextBookResultDto>>()
+        return new Response<IEnumerable<ReminderResultDto>>()
         {
             StatusCode = 200,
             Message = "Success",
@@ -78,20 +78,20 @@ public class ReminderService : IReminderService
         };
     }
 
-    public async Task<Response<TextBookResultDto>> GetAsync(long id)
+    public async Task<Response<ReminderResultDto>> GetAsync(long id)
     {
-        var textBook = await unitOfWork.TextBookRepository.GetByIdAsync(id);
-        if (textBook is null)
-            return new Response<TextBookResultDto>()
+        var remind = await unitOfWork.ReminderRepository.GetByIdAsync(id);
+        if (remind is null)
+            return new Response<ReminderResultDto>()
             {
                 StatusCode = 404,
                 Message = "Not Found",
                 Data = null
             };
 
-        var result = mapper.Map<TextBookResultDto>(textBook);
+        var result = mapper.Map<ReminderResultDto>(remind);
 
-        return new Response<TextBookResultDto>
+        return new Response<ReminderResultDto>
         {
             StatusCode = 200,
             Message = "Success",
@@ -99,25 +99,25 @@ public class ReminderService : IReminderService
         };
     }
 
-    public async Task<Response<TextBookResultDto>> UpdateAsync(TextBookUpdateDto dto)
+    public async Task<Response<ReminderResultDto>> UpdateAsync(ReminderUpdateDto dto)
     {
-        var textBook = await unitOfWork.TextBookRepository.GetByIdAsync(dto.Id);
-        if (textBook is null)
-            return new Response<TextBookResultDto>()
+        var remind = await unitOfWork.ReminderRepository.GetByIdAsync(dto.Id);
+        if (remind is null)
+            return new Response<ReminderResultDto>()
             {
                 StatusCode = 404,
                 Message = "Not Found",
                 Data = null
             };
 
-        var mappedTextBook = mapper.Map(dto, textBook);
+        var mappedRemind = mapper.Map(dto, remind);
 
-        unitOfWork.TextBookRepository.Update(mappedTextBook);
+        unitOfWork.ReminderRepository.Update(mappedRemind);
         await unitOfWork.SaveChanges();
 
-        var result = mapper.Map<TextBookResultDto>(mappedTextBook);
+        var result = mapper.Map<ReminderResultDto>(mappedRemind);
 
-        return new Response<TextBookResultDto>
+        return new Response<ReminderResultDto>
         {
             StatusCode = 200,
             Message = "Success",

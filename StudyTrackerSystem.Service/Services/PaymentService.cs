@@ -21,8 +21,16 @@ public class PaymentService : IPaymentService
     }
     public async Task<Response<PaymentResultDto>> CreateAsync(PaymentCreationDto dto)
     {
+        var student = await unitOfWork.StudentRepository.GetByIdAsync(dto.StudentId);
+        if (student == null)
+            return new Response<PaymentResultDto>()
+            {
+                StatusCode = 404,
+                Message = "Not found"
+            };
 
         var mappedPayment = mapper.Map<Payment>(dto);
+        mappedPayment.Student = student;
 
         await unitOfWork.PaymentRepository.CreateAsync(mappedPayment);
         await unitOfWork.SaveChanges();

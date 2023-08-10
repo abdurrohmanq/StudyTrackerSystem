@@ -12,7 +12,7 @@ using StudyTrackerSystem.Data.Contexts;
 namespace StudyTrackerSystem.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230810061729_StudyTrackerMigration")]
+    [Migration("20230810145516_StudyTrackerMigration")]
     partial class StudyTrackerMigration
     {
         /// <inheritdoc />

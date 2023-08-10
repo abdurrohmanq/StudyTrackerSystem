@@ -1,4 +1,5 @@
-﻿using StudyTrackerSystem.Service.DTOs.Groups;
+﻿using StudyTrackerSystem.Domain.Entities.Groups;
+using StudyTrackerSystem.Service.DTOs.Groups;
 
 namespace StudyTrackerSystem.Service.DTOs.Teachers;
 
@@ -9,6 +10,6 @@ public class TeacherResultDto
     public string LastName { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-    public GroupResultDto GroupResult { get; set; }
+    public Group Group { get; set; }
 }
 

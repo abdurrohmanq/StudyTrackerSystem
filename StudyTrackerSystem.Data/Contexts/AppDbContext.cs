@@ -24,7 +24,7 @@ public class AppDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        string connectionString = "Server=(localdb)\\MSSQLLocalDB; Database=HospitalDB; Trusted_Connection=true";
+        string connectionString = "Server=(localdb)\\MSSQLLocalDB; Database=StudyTrackerSystem; Trusted_Connection=true";
         optionsBuilder.UseSqlServer(connectionString);
     }
 

@@ -8,8 +8,8 @@ public class Reminder : AudiTable
 {
     public string Text { get; set; }
     public DateTime Date { get; set; }
-    public long StudentId { get; set; }
+    public long? StudentId { get; set; }
     public Student Student { get; set; }
-    public long TeacherId { get; set; }
+    public long? TeacherId { get; set; }
     public Teacher Teacher { get; set; }
 }

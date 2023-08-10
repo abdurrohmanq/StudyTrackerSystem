@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StudyTrackerSystem.Data\StudyTrackerSystem.Data.csproj" />
+    <ProjectReference Include="..\StudyTrackerSystem.View\StudyTrackerSystem.View.csproj" />
   </ItemGroup>
 
 </Project>

@@ -115,6 +115,27 @@ public class StudentServiceView
         Console.WriteLine("Enter Group id: ");
         long id = long.Parse(Console.ReadLine());
         
-        Console.WriteLine((await studentService.GetAttendance(id)).Message);    
+        Console.WriteLine((await studentService.GetAttendance(id)).Message);
+        return;
+    }
+
+    public async void TopPerforms()
+    {
+        Console.Write("Enter Group Id: ");
+        long id = long.Parse((Console.ReadLine()));
+        Console.Write("Enter sturdent Count: ");
+        int cnt = int.Parse(Console.ReadLine());
+
+        var result = (await studentService.GetTopPerformers(id, cnt)).Data;
+        
+        if(result.Any())
+            foreach(var item in result)
+            {
+                Console.WriteLine(item.Student.FirstName + " " + item.Student.LastName + "  " + item.Ball);
+            }
+        else
+        {
+            Console.Write((await studentService.GetTopPerformers(id, cnt)).Message);
+        }
     }
 }

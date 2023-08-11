@@ -118,6 +118,7 @@ public class MainPage
             "4. Get\n" +
             "5. GetAll\n" +
             "6. GetAttendance\n" +
+            "7. TopPerform\n" +
             "0. Back");
         Console.Write(">>> ");
 
@@ -141,6 +142,9 @@ public class MainPage
                 break;
             case 6:
                 studentServiceView.GetAttendance();
+                break;
+            case 7:
+                studentServiceView.TopPerforms();
                 break;
             case 0:
                 MainView();

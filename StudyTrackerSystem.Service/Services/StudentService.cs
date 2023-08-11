@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using StudyTrackerSystem.Data.Contexts;
 using StudyTrackerSystem.Data.IRepositories.Common;
 using StudyTrackerSystem.Data.Repositories.Common;
 using StudyTrackerSystem.Domain.Entities.Students;
 using StudyTrackerSystem.Service.DTOs.Students;
+using StudyTrackerSystem.Service.DTOs.StudyResults;
 using StudyTrackerSystem.Service.Helpers;
 using StudyTrackerSystem.Service.Interfaces;
 using StudyTrackerSystem.Service.Mapping;
@@ -145,9 +148,9 @@ public class StudentService : IStudentService
                 Data = false
             };
         }
+        var students = await unitOfWork.StudentRepository.GetAllWithGroupAsync().ToListAsync();
 
-        var students = group.Students.ToList();
-        if (students.Count == 0)
+        if (students is null)
         {
             return new Response<bool>()
             {
@@ -157,25 +160,19 @@ public class StudentService : IStudentService
             };
         }
 
-        Console.WriteLine("\tFirst Name\t\t\tLast Name");
+        Console.WriteLine("\tFirst Name\t\tLast Name");
+        int cnt = 1;
 
-        for (int i = 0; i < students.Count; i++)
+        foreach (var student in students)
         {
-            Console.WriteLine($"{i + 1}. {students[i].FirstName}\t\t{students[i].LastName}");
+            Console.WriteLine(cnt + " " + student.FirstName + " " + student.LastName);
+            cnt++;
         }
-
         Console.Write("Mark an absent student: ");
-        if (!int.TryParse(Console.ReadLine(), out int select) || select < 1 || select > students.Count)
-        {
-            return new Response<bool>()
-            {
-                StatusCode = 400,
-                Message = "Invalid student selection",
-                Data = false
-            };
-        }
 
-        var student2 = students[select - 1];
+        int select = int.Parse(Console.ReadLine());
+
+        var student2 = students.ElementAt(select - 1);
         student2.Attendance = false;
         unitOfWork.StudentRepository.Update(student2);
         await unitOfWork.SaveChanges();
@@ -188,5 +185,39 @@ public class StudentService : IStudentService
         };
     }
 
+    public async Task<Response<IEnumerable<StudyResultResultDto>>> GetTopPerformers(long groupId, int count)
+    {
+        var group = await unitOfWork.GroupRepository.GetByIdAsync(groupId);
+        if (group is null)
+        {
+            return new Response<IEnumerable<StudyResultResultDto>>()
+            {
+                StatusCode = 404,
+                Message = "Group not found",
+                Data = null
+            };
+        }
 
+        var studyResults = await unitOfWork.StudyResultRepository.GetAll()
+        .Include(sr => sr.Student)
+        .Include(sr => sr.Subject)
+        .Where(sr => sr.Student.GroupId == groupId)
+        .OrderByDescending(sr => sr.Student.Attendance) // O'qitishga borish davomati bo'yicha saralash
+        .ThenByDescending(sr => sr.Ball) // Baholar bo'yicha saralash
+        .Take(count)
+        .ToListAsync();
+
+        var result = new List<StudyResultResultDto>();
+        foreach (var student in studyResults)
+        {
+            var map = mapper.Map<StudyResultResultDto>(student);
+            result.Add(map);
+        }
+        return new Response<IEnumerable<StudyResultResultDto>>()
+        {
+            StatusCode = 200,
+            Message = "Success",
+            Data = result
+        };
+    }
 }

@@ -26,6 +26,7 @@ public class AppDbContext : DbContext
         base.OnConfiguring(optionsBuilder);
         string connectionString = "Server=(localdb)\\MSSQLLocalDB; Database=StudyTrackerSystem; Trusted_Connection=true";
         optionsBuilder.UseSqlServer(connectionString);
+        
     }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

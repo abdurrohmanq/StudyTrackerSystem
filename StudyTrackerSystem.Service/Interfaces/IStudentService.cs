@@ -22,4 +22,5 @@ public interface IStudentService
     Task<Response<bool>> GetAttendance(long groupId);
 
     Task<Response<IEnumerable<StudentResultDto>>> GetAllAsync();
+    Task<Response<IEnumerable<StudyResultResultDto>>> GetTopPerformers(long groupId,int count);
 }

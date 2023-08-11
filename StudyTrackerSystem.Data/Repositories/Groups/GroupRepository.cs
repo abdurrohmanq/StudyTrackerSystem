@@ -1,4 +1,5 @@
-﻿using StudyTrackerSystem.Data.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using StudyTrackerSystem.Data.Contexts;
 using StudyTrackerSystem.Data.IRepositories.Groups;
 using StudyTrackerSystem.Data.Repositories.Common;
 using StudyTrackerSystem.Domain.Entities.Groups;
@@ -16,5 +17,10 @@ public class GroupRepository : Repository<Group>,IGroupRepository
     public GroupRepository(AppDbContext appDbContext) : base(appDbContext)
     {
         this.appDbContext = appDbContext;
+    }
+
+    public async Task<Group> GetByIdWithStudentsAsync(long groupId)
+    {
+        return await appDbContext.Groups.Include(g => g.Students).FirstOrDefaultAsync(g => g.Id == groupId);
     }
 }
